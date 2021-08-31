@@ -1,6 +1,10 @@
 import Head from 'next/head'
-import Chart from 'react-google-charts'
-import styles from '../styles/Home.module.css'
+import { PieChart } from 'react-minimal-pie-chart'
+
+import styles from '../styles/Index.module.css'
+
+const COLORS = ['#e6cb22', '#9c9b94', '#82541b']
+const EMOJIS = ['🥇', '🥈', '🥉']
 
 function parseCookies(response) {
   const raw = response.headers.raw()['set-cookie']
@@ -13,39 +17,50 @@ function parseCookies(response) {
     .join(';')
 }
 
-function parseMatchStats(stats) {
-  return [
+function transformMatchStatsToChartData(stats) {
+  const monthlyStats = stats.filter(({ month }) => month !== 'Last 10')
+
+  const winsAndLosses = [
     ...Object.entries(
-      stats
-        .filter(({ month }) => month !== 'Last 10')
-        .reduce((totalMatchMemo, { month, userStats }) => {
-          const monthMatchStats = userStats.reduce(
-            (monthMemo, { user, wins, overTimeWins }) => ({
-              ...monthMemo,
-              [user.name]: wins + overTimeWins,
-            }),
-            {},
-          )
+      monthlyStats.reduce((totalMatchMemo, { userStats }) => {
+        const monthMatchStats = userStats.reduce(
+          (monthMemo, { user, wins, overTimeWins }) => ({
+            ...monthMemo,
+            [user.name]: wins + overTimeWins,
+          }),
+          {},
+        )
 
-          const totalPlusMonthMatchStats = Object.entries(
-            monthMatchStats,
-          ).reduce(
-            (memo, [key, value]) => ({
-              ...memo,
-              [key]: value + (totalMatchMemo[key] || 0),
-            }),
-            {},
-          )
+        const totalPlusMonthMatchStats = Object.entries(monthMatchStats).reduce(
+          (memo, [key, value]) => ({
+            ...memo,
+            [key]: value + (totalMatchMemo[key] || 0),
+          }),
+          {},
+        )
 
-          return {
-            ...totalMatchMemo,
-            ...totalPlusMonthMatchStats,
-          }
-        }, {}),
+        return {
+          ...totalMatchMemo,
+          ...totalPlusMonthMatchStats,
+        }
+      }, {}),
     ),
-  ].sort((a, b) => {
-    return b[1] - a[1]
-  })
+  ]
+    .sort((a, b) => {
+      return b[1] - a[1]
+    })
+    .map((matchStat, i) => ({
+      title: matchStat[0],
+      value: matchStat[1],
+      color: COLORS[i] || '#fff',
+    }))
+
+  const totalTies = monthlyStats.reduce(
+    (drawMemo, { ties }) => drawMemo + ties,
+    0,
+  )
+
+  return [...winsAndLosses, { title: 'Ties', value: totalTies, color: '#fff' }]
 }
 
 export async function getServerSideProps(context) {
@@ -69,7 +84,7 @@ export async function getServerSideProps(context) {
       cookie: parseCookies(loginResponse),
     },
   })
-  const matchStats = parseMatchStats(await statsResponse.json())
+  const matchStats = transformMatchStatsToChartData(await statsResponse.json())
 
   return {
     props: {
@@ -82,32 +97,26 @@ export default function Home({ matchStats }) {
   return (
     <div className={styles.container}>
       <Head>
-        <title>fifalog-dashboard</title>
-        <meta name="description" content="Fifa Log Dashboard" />
+        <title>Fifa Log Dashboard</title>
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.header}>FIFA Log statictics from all eternity</h1>
+        <h1 className={styles.header}>FIFA Log statistics from all eternity</h1>
         {matchStats ? (
-          <Chart
-            width="1400px"
-            height="1000px"
-            chartType="PieChart"
-            loader={<div>Loading Chart</div>}
-            data={[['Player', 'Wins'], ...matchStats]}
-            options={{
-              legend: {
-                position: 'labeled',
-                textStyle: { color: '#FFFFFF' },
-              },
-              fontSize: 24,
-              pieSliceText: 'value',
-              backgroundColor: '#262626',
-              slices: {
-                0: { color: '#adab02' },
-                1: { color: '#9c9b94' },
-                2: { color: '#82541b' },
-              },
+          <PieChart
+            data={matchStats}
+            label={({ dataEntry: { title, value, percentage }, dataIndex }) =>
+              `${
+                title !== 'Ties' ? EMOJIS[dataIndex] : ''
+              } ${title}: ${value} (${Math.round(percentage)}%)`
+            }
+            style={{
+              height: '70vh',
+              width: '70vw',
+            }}
+            labelStyle={{
+              fontSize: '0.4rem',
+              fontFamily: 'VT323',
             }}
           />
         ) : null}
