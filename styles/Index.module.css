@@ -1,11 +1,10 @@
 .container {
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: #262626;
 }
 
 .main {
@@ -14,15 +13,15 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 0 20px;
+  margin: 20px;
 }
 
 .header {
   color: rgba(255, 255, 255, 0.95);
-  margin-bottom: 48px;
   text-align: center;
   font-family: 'VT323';
   font-size: 3rem;
+  margin-top: 0;
 }
 
 /* Mobile */
@@ -32,23 +31,21 @@
 /* Tablet */
 @media screen and (min-width: 768px) and (max-width: 1024px) {
   .main {
-    margin: 0 40px;
+    margin: 15px 40px 40px 40px;
   }
 
   .header {
-    margin-bottom: 68px;
-    font-size: 5rem;
+    font-size: 4rem;
   }
 }
 
 /* Laptop, Desktop */
 @media screen and (min-width: 1025px) {
   .main {
-    margin: 0 60px;
+    margin: 20px 60px 60px 60px;
   }
 
   .header {
-    margin-bottom: 88px;
-    font-size: 7rem;
+    font-size: 6rem;
   }
 }

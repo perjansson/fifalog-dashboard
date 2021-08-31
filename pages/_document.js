@@ -12,7 +12,6 @@ class MyDocument extends Document {
       <Html lang="en">
         <Head>
           <meta name="description" content="Fifa Log Dashboard" />
-
           <link rel="preconnect" href="https://fonts.googleapis.com"></link>
           <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin />
           <link
