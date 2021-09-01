@@ -2,9 +2,12 @@ import Head from 'next/head'
 import MatchStatsChart from '../components/MatchStatsChart'
 
 import { useStats } from '../hooks/stats'
+import { useWindowHeightOnResize } from '../hooks/windowResize'
 import styles from '../styles/Index.module.css'
 
 export default function Home() {
+  useWindowHeightOnResize()
+
   const { stats, timestamp, isLoading, isError } = useStats()
 
   return (

@@ -19,8 +19,7 @@ export default function MatchStatsChart({ matchStats }) {
         } ${title}: ${value} (${Math.round(percentage)}%)`
       }
       style={{
-        height: '70vh',
-        width: '70vw',
+        height: '50vh',
       }}
       labelStyle={{
         fontSize: '0.4rem',

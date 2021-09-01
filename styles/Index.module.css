@@ -1,19 +1,16 @@
 .container {
-  height: 100%;
+  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
 
 .main {
-  flex: 1;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  margin: 20px;
+  justify-content: space-between;
+  padding: 20px;
 }
 
 .header {
@@ -28,10 +25,16 @@
 }
 
 .chart {
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-around;
   transition: opacity 0.5s ease-in-out 1s;
+}
+
+.chart svg {
+  flex-grow: 1;
 }
 
 .loading-true {
@@ -49,7 +52,7 @@
 /* Tablet */
 @media screen and (min-width: 768px) and (max-width: 1024px) {
   .main {
-    margin: 15px 40px 40px 40px;
+    padding: 15px 40px 40px 40px;
   }
 
   .header {
@@ -64,7 +67,7 @@
 /* Laptop, Desktop */
 @media screen and (min-width: 1025px) {
   .main {
-    margin: 20px 60px 60px 60px;
+    padding: 20px 60px 60px 60px;
   }
 
   .header {
