@@ -17,11 +17,29 @@
 }
 
 .header {
-  color: rgba(255, 255, 255, 0.95);
   text-align: center;
-  font-family: 'VT323';
   font-size: 3rem;
   margin-top: 0;
+}
+
+.error {
+  font-size: 2rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.chart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: opacity 0.5s ease-in-out 1s;
+}
+
+.loading-true {
+  opacity: 0.5;
+}
+
+.lastUpdated {
+  color: rgba(255, 255, 255, 0.5);
 }
 
 /* Mobile */
@@ -37,6 +55,10 @@
   .header {
     font-size: 4rem;
   }
+
+  .lastUpdated {
+    margin-top: 20px;
+  }
 }
 
 /* Laptop, Desktop */
@@ -47,5 +69,9 @@
 
   .header {
     font-size: 6rem;
+  }
+
+  .lastUpdated {
+    margin-top: 40px;
   }
 }

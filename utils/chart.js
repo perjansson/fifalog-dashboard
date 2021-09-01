@@ -40,5 +40,5 @@ export function transformMatchStatsToChartData(stats) {
     0,
   )
 
-  return [...winsAndLosses, { title: 'Ties', value: totalTies, color: '#fff' }]
+  return [...winsAndLosses, { title: 'Ties', value: totalTies }]
 }
