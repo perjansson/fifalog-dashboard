@@ -22,7 +22,7 @@ export default function Home() {
             <MatchStatsChart matchStats={stats} />
             {timestamp && (
               <div className={styles.lastUpdated}>
-                Last updated at {timestamp}
+                Last updated at {new Date(timestamp).toLocaleString()}
               </div>
             )}
           </div>
