@@ -13,7 +13,8 @@ export function useStats() {
   return {
     stats: data?.stats,
     timestamp: data?.timestamp,
-    isLoading: (!error && !data) || isValidating,
+    isLoading: !error && !data,
+    isValidating,
     isError: error,
   }
 }

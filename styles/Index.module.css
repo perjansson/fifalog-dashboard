@@ -24,6 +24,15 @@
   color: rgba(255, 255, 255, 0.7);
 }
 
+.loader {
+  margin: auto;
+}
+
+.loader svg {
+  width: 80px;
+  height: 80px;
+}
+
 .chart {
   flex: 1;
   display: flex;
@@ -55,6 +64,11 @@
     padding: 15px 40px 40px 40px;
   }
 
+  .loader svg {
+    width: 200px;
+    height: 200px;
+  }
+
   .header {
     font-size: 4rem;
   }
@@ -68,6 +82,11 @@
 @media screen and (min-width: 1025px) {
   .main {
     padding: 20px 60px 60px 60px;
+  }
+
+  .loader svg {
+    width: 400px;
+    height: 400px;
   }
 
   .header {
