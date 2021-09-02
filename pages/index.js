@@ -1,8 +1,9 @@
 import Head from 'next/head'
-import FadeIn from 'react-fade-in'
-import Loader from 'react-loader-spinner'
+import { Error } from '../components/Error'
+import { Loading } from '../components/Loading'
 
 import MatchStatsChart from '../components/MatchStatsChart'
+import { Timestamp } from '../components/Timestamp'
 import { useStats } from '../hooks/stats'
 import { useWindowHeightOnResize } from '../hooks/windowResize'
 import styles from '../styles/Index.module.css'
@@ -26,29 +27,12 @@ export default function Home() {
             className={[styles.chart, styles[`loading-${isLoading}`]].join(' ')}
           >
             <MatchStatsChart matchStats={stats} />
-            {timestamp && (
-              <div className={styles.lastUpdated}>
-                Last updated at {new Date(timestamp).toLocaleString()}
-              </div>
-            )}
+            {timestamp && <Timestamp time={timestamp} />}
           </div>
         )}
 
-        {isLoading && (
-          <FadeIn
-            delay={1500}
-            transitionDuration={1000}
-            className={styles.loader}
-          >
-            <Loader type="TailSpin" color="rgba(255, 255, 255, 0.8)" />
-          </FadeIn>
-        )}
-
-        {isError && !stats && (
-          <p className={styles.error}>
-            😢 Crap! Error loading awesome FIFA data, try again...
-          </p>
-        )}
+        {isLoading && <Loading className={styles.loader} />}
+        {isError && !stats && <Error />}
       </main>
     </div>
   )
