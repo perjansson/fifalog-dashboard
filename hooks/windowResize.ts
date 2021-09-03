@@ -1,10 +1,10 @@
 import { useEffect } from 'react'
 
-export function useWindowHeightOnResize() {
+export function useWindowHeightOnResize(): void {
   useEffect(() => {
     const handleResizeWindow = () => {
       console.log('on resize')
-      let vh = window.innerHeight * 0.01
+      const vh = window.innerHeight * 0.01
       document.documentElement.style.setProperty('--vh', `${vh}px`)
     }
 

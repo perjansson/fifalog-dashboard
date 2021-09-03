@@ -2,13 +2,13 @@ import Head from 'next/head'
 import { Error } from '../components/Error'
 import { Loading } from '../components/Loading'
 
-import MatchStatsChart from '../components/MatchStatsChart'
+import { MatchStatsChart } from '../components/MatchStatsChart'
 import { Timestamp } from '../components/Timestamp'
 import { useStats } from '../hooks/stats'
 import { useWindowHeightOnResize } from '../hooks/windowResize'
 import styles from '../styles/Index.module.css'
 
-export default function Home() {
+const Home: React.FC = () => {
   useWindowHeightOnResize()
 
   const { stats, timestamp, isLoading, isValidating, isError } = useStats()
@@ -24,7 +24,12 @@ export default function Home() {
 
         {stats && (
           <div
-            className={[styles.chart, styles[`loading-${isLoading}`]].join(' ')}
+            className={[
+              styles.chart,
+              styles[
+                `loading-${Boolean(isLoading || isValidating).toString()}`
+              ],
+            ].join(' ')}
           >
             <MatchStatsChart matchStats={stats} />
             {timestamp && <Timestamp time={timestamp} />}
@@ -32,8 +37,10 @@ export default function Home() {
         )}
 
         {isLoading && <Loading className={styles.loader} />}
-        {isError && !stats && <Error />}
+        {isError && !stats && <Error className={styles.error} />}
       </main>
     </div>
   )
 }
+
+export default Home

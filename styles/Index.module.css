@@ -46,6 +46,10 @@
   flex-grow: 1;
 }
 
+.loading-true {
+  opacity: 0.5;
+}
+
 .lastUpdated {
   color: rgba(255, 255, 255, 0.5);
 }

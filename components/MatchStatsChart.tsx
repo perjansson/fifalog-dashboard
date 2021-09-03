@@ -1,10 +1,14 @@
-import Head from 'next/head'
 import { PieChart } from 'react-minimal-pie-chart'
+import { Data } from 'react-minimal-pie-chart/types/commonTypes'
 
 const COLORS = ['#e6cb22', '#9c9b94', '#82541b']
 const EMOJIS = ['🥇', '🥈', '🥉']
 
-export default function MatchStatsChart({ matchStats }) {
+interface Props {
+  matchStats: Data
+}
+
+export const MatchStatsChart: React.FC<Props> = ({ matchStats }) => {
   const matchStatsWithColors = matchStats.map((matchStat, i) => ({
     ...matchStat,
     color: COLORS[i] || '#fff',
@@ -13,11 +17,15 @@ export default function MatchStatsChart({ matchStats }) {
   return (
     <PieChart
       data={matchStatsWithColors}
-      label={({ dataEntry: { title, value, percentage }, dataIndex }) =>
-        `${
+      label={({ dataEntry: { title, value, percentage }, dataIndex }) => {
+        if (!title) {
+          return ''
+        }
+
+        return `${
           title !== 'Ties' ? EMOJIS[dataIndex] : ''
         } ${title}: ${value} (${Math.round(percentage)}%)`
-      }
+      }}
       style={{
         height: '50vh',
       }}
