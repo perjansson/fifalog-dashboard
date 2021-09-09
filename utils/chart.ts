@@ -1,11 +1,11 @@
-import { FifaLogStatsResponse, TotalMatchStat } from '../types'
+import { FifaLogStatsResponse, TotalMatchStat, TotalStats } from '../types'
 
 type MatchStatObject = { [key: string]: number }
 
 export function transformMatchStatsToChartData(
-  stats: FifaLogStatsResponse,
-): Array<TotalMatchStat> {
-  const monthlyStats = stats.filter(({ month }) => month !== 'Last 10')
+  statsResponse: FifaLogStatsResponse,
+): TotalStats {
+  const monthlyStats = statsResponse.filter(({ month }) => month !== 'Last 10')
 
   const winsAndLosses = [
     ...Object.entries(
@@ -46,5 +46,12 @@ export function transformMatchStatsToChartData(
     0,
   )
 
-  return [...winsAndLosses, { title: 'Ties', value: totalTies }]
+  const stats: TotalMatchStat[] = [...winsAndLosses, { title: 'Ties', value: totalTies }]
+
+  const totalGames = stats.reduce((total, { value }) => total + value, 0)
+
+  return {
+    stats,
+    totalGames
+  }
 }

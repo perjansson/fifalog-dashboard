@@ -11,7 +11,7 @@ import styles from '../styles/Index.module.css'
 const Home: React.FC = () => {
   useWindowHeightOnResize()
 
-  const { stats, timestamp, isLoading, isValidating, isError } = useStats()
+  const { stats, totalGames, timestamp, isLoading, isValidating, isError } = useStats()
 
   return (
     <div className={styles.container}>
@@ -32,6 +32,7 @@ const Home: React.FC = () => {
             ].join(' ')}
           >
             <MatchStatsChart matchStats={stats} />
+            <div>Total games played: {totalGames}</div>
             {timestamp && <Timestamp time={timestamp} />}
           </div>
         )}

@@ -8,6 +8,7 @@ async function statsFetcher() {
 
 interface UseStatsResponse {
   stats?: Array<TotalMatchStat>
+  totalGames?: number
   timestamp?: string
   isLoading: boolean
   isValidating: boolean

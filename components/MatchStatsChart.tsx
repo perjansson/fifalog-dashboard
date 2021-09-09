@@ -1,15 +1,16 @@
 import { PieChart } from 'react-minimal-pie-chart'
 import { Data } from 'react-minimal-pie-chart/types/commonTypes'
+import { TotalMatchStat } from '../types'
 
 const COLORS = ['#e6cb22', '#9c9b94', '#82541b']
 const EMOJIS = ['🥇', '🥈', '🥉']
 
 interface Props {
-  matchStats: Data
+  matchStats: TotalMatchStat[]
 }
 
 export const MatchStatsChart: React.FC<Props> = ({ matchStats }) => {
-  const matchStatsWithColors = matchStats.map((matchStat, i) => ({
+  const matchStatsWithColors: Data = matchStats.map((matchStat, i) => ({
     ...matchStat,
     color: COLORS[i] || '#fff',
   }))

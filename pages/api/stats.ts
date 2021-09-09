@@ -32,8 +32,8 @@ export default async function statsHandler(
     },
   })
 
-  const stats = transformMatchStatsToChartData(await statsResponse.json())
-  res.status(200).json({ timestamp: new Date(), stats })
+  const totalStats = transformMatchStatsToChartData(await statsResponse.json())
+  res.status(200).json({ timestamp: new Date(), ...totalStats })
 }
 
 function parseCookies(response: Response): string {

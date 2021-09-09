@@ -1,11 +1,10 @@
 interface Props {
   time: string
-  className?: string
 }
 
-export const Timestamp: React.FC<Props> = ({ time, className }) => {
+export const Timestamp: React.FC<Props> = ({ time }) => {
   return (
-    <div className={className}>
+    <div>
       Last updated at {new Date(time).toLocaleString()}
     </div>
   )

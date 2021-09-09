@@ -1,3 +1,8 @@
+export interface TotalStats {
+  stats: Array<TotalMatchStat>
+  totalGames: number
+}
+
 export interface TotalMatchStat {
   title: string
   value: number
