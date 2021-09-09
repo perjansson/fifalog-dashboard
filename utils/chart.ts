@@ -11,9 +11,9 @@ export function transformMatchStatsToChartData(
     ...Object.entries(
       monthlyStats.reduce<MatchStatObject>((totalMatchMemo, { userStats }) => {
         const monthMatchStats = userStats.reduce<MatchStatObject>(
-          (monthMemo, { user, wins, overTimeWins }) => ({
+          (monthMemo, { user, wins }) => ({
             ...monthMemo,
-            [user.name]: wins + overTimeWins,
+            [user.name]: wins,
           }),
           {},
         )
