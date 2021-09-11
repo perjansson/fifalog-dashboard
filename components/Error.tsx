@@ -1,11 +1,11 @@
-interface Props {
-  className?: string
-}
+import { styled } from '../stitches.config'
 
-export const Error: React.FC<Props> = ({ className }) => {
+const Paragraph = styled('p')
+
+export const Error: React.FC = () => {
   return (
-    <p className={className}>
+    <Paragraph css={{ fontSize: '$large', color: '$error' }}>
       😢 Crap! Error loading awesome FIFA data, try again...
-    </p>
+    </Paragraph>
   )
 }
