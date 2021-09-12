@@ -20,9 +20,8 @@ export const {
       white60: '#999999',
       black: '#000000',
       black90: '#1a1a1d',
+      black60: '#666666',
       red: '#c3073f',
-      primary: '$white90',
-      bg: '$black90',
       error: '$red',
     },
     fontSizes: {
@@ -75,5 +74,21 @@ export const {
       paddingTop: value,
       paddingBottom: value,
     }),
+  },
+})
+
+export const darkTheme = createTheme('dark-theme', {
+  colors: {
+    primary: '$white90',
+    secondary: '$white60',
+    bg: '$black90',
+  },
+})
+
+export const lightTheme = createTheme('light-theme', {
+  colors: {
+    primary: '$black90',
+    secondary: '$black60',
+    bg: '$white90',
   },
 })

@@ -9,6 +9,9 @@ const StyledLoader = styled(Loader, {
   svg: {
     width: '80px',
     height: '80px',
+    path: {
+      stroke: '$secondary',
+    },
   },
 
   '@bp1': {
@@ -28,7 +31,7 @@ const StyledLoader = styled(Loader, {
 export const Loading: React.FC = () => {
   return (
     <FadeIn delay={1500} transitionDuration={1000}>
-      <StyledLoader type="TailSpin" color="rgba(255, 255, 255, 0.8)" />
+      <StyledLoader type="TailSpin" />
     </FadeIn>
   )
 }

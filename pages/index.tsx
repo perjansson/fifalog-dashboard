@@ -6,6 +6,7 @@ import { Loading } from '../components/Loading'
 import { MatchStatsChart } from '../components/MatchStatsChart'
 import { Timestamp } from '../components/Timestamp'
 import { useStats } from '../hooks/stats'
+import { useTheme } from '../hooks/theme'
 import { useWindowHeightOnResize } from '../hooks/windowResize'
 
 import { styled } from '../stitches.config'
@@ -60,13 +61,14 @@ const LastUpdated = styled(Timestamp, {
 })
 
 const Home: React.FC = () => {
+  const theme = useTheme()
   useWindowHeightOnResize()
 
   const { stats, totalGames, timestamp, isLoading, isValidating, isError } =
     useStats()
 
-  return (
-    <Container>
+  return theme ? (
+    <Container className={theme}>
       <Head>
         <title>Fifa Log Dashboard</title>
       </Head>
@@ -88,7 +90,7 @@ const Home: React.FC = () => {
         {isError && !stats && <Error />}
       </Main>
     </Container>
-  )
+  ) : null
 }
 
 export default Home
