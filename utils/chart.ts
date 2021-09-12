@@ -46,12 +46,15 @@ export function transformMatchStatsToChartData(
     0,
   )
 
-  const stats: TotalMatchStat[] = [...winsAndLosses, { title: 'Ties', value: totalTies }]
+  const stats: TotalMatchStat[] = [
+    ...winsAndLosses,
+    { title: 'Ties', value: totalTies },
+  ]
 
   const totalGames = stats.reduce((total, { value }) => total + value, 0)
 
   return {
     stats,
-    totalGames
+    totalGames,
   }
 }

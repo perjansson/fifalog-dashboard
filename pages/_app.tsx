@@ -1,8 +1,8 @@
 import { AppProps } from 'next/dist/shared/lib/router/router'
 import React from 'react'
+import '../utils/i18n'
 
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
-
 import { globalCss } from '../stitches.config'
 
 const globalStyles = globalCss({

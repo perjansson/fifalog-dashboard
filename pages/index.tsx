@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import { useTranslation } from 'react-i18next'
 
 import { Error } from '../components/Error'
 import { Header } from '../components/Header'
@@ -67,21 +68,23 @@ const Home: React.FC = () => {
   const { stats, totalGames, timestamp, isLoading, isValidating, isError } =
     useStats()
 
+  const { t } = useTranslation()
+
   return theme ? (
     <Container className={theme}>
       <Head>
-        <title>Fifa Log Dashboard</title>
+        <title>{t('pageTitle')}</title>
       </Head>
 
       <Main>
-        <Header>FIFA Log statistics from all eternity</Header>
+        <Header>{t('header')}</Header>
 
         <ChartWrapper loading={isLoading || isValidating}>
           {isLoading && <Loading />}
           {stats && (
             <>
               <MatchStatsChart matchStats={stats} />
-              <div>Total games played: {totalGames}</div>
+              <div>{t('totalGames', { count: totalGames })}</div>
               {timestamp && <LastUpdated time={timestamp} />}
             </>
           )}

@@ -1,5 +1,6 @@
 import { PieChart } from 'react-minimal-pie-chart'
 import { Data } from 'react-minimal-pie-chart/types/commonTypes'
+import i18n from '../utils/i18n'
 import { TotalMatchStat } from '../types'
 
 const COLORS = ['#e6cb22', '#9c9b94', '#82541b']
@@ -23,15 +24,17 @@ export const MatchStatsChart: React.FC<Props> = ({ matchStats }) => {
           return ''
         }
 
+        const translatedTitle = title === 'Ties' ? i18n.t('ties') : title
+
         return `${
-          title !== 'Ties' ? EMOJIS[dataIndex] : ''
-        } ${title}: ${value} (${Math.round(percentage)}%)`
+          title !== i18n.t('ties') ? EMOJIS[dataIndex] : ''
+        } ${translatedTitle}: ${value} (${Math.round(percentage)}%)`
       }}
       style={{
         height: '50vh',
       }}
       labelStyle={{
-        fontSize: '0.4rem',
+        fontSize: '0.3rem',
         fontFamily: 'VT323',
       }}
     />

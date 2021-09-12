@@ -1,12 +1,17 @@
+import { useTranslation } from 'react-i18next'
+
 interface Props {
   time: string
   className?: string
 }
 
 export const Timestamp: React.FC<Props> = ({ time, className }) => {
+  const { t } = useTranslation()
   return (
     <div className={className}>
-      Last updated at {new Date(time).toLocaleString()}
+      {t('lastUpdated', {
+        timestamp: new Date(time),
+      })}
     </div>
   )
 }
