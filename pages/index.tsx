@@ -25,7 +25,7 @@ const Main = styled('main', {
   justifyContent: 'space-between',
   padding: '$space5',
   '@bp1': {
-    paddingY: '$space1',
+    paddingY: '$space3',
     paddingX: '@space10',
   },
   '@bp2': {
@@ -74,15 +74,17 @@ const Home: React.FC = () => {
       <Main>
         <Header>FIFA Log statistics from all eternity</Header>
 
-        {stats && (
-          <ChartWrapper loading={isLoading || isValidating}>
-            <MatchStatsChart matchStats={stats} />
-            <div>Total games played: {totalGames}</div>
-            {timestamp && <LastUpdated time={timestamp} />}
-          </ChartWrapper>
-        )}
+        <ChartWrapper loading={isLoading || isValidating}>
+          {isLoading && <Loading />}
+          {stats && (
+            <>
+              <MatchStatsChart matchStats={stats} />
+              <div>Total games played: {totalGames}</div>
+              {timestamp && <LastUpdated time={timestamp} />}
+            </>
+          )}
+        </ChartWrapper>
 
-        {isLoading && <Loading />}
         {isError && !stats && <Error />}
       </Main>
     </Container>
