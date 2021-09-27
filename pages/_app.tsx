@@ -4,6 +4,7 @@ import '../utils/i18n'
 
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 import { globalCss } from '../stitches.config'
+import ErrorBoundary from '../components/ErrorBoundary'
 
 const globalStyles = globalCss({
   'html, body': {
@@ -40,7 +41,11 @@ const globalStyles = globalCss({
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
   globalStyles()
-  return <Component {...pageProps} />
+  return (
+    <ErrorBoundary>
+      <Component {...pageProps} />
+    </ErrorBoundary>
+  )
 }
 
 export default MyApp

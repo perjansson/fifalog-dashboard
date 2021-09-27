@@ -16,12 +16,26 @@ export const {
   theme: {
     colors: {
       white: '#ffffff',
-      white90: '#e5e5e5',
-      white60: '#999999',
       black: '#000000',
-      black90: '#1a1a1d',
-      black60: '#666666',
       red: '#c3073f',
+      white90: '#F5F5F5',
+      white80: '#EEEEEE',
+      white70: '#E0E0E0',
+      white60: '#BDBDBD',
+      white50: '#9E9E9E',
+      white40: '#757575',
+      white30: '#616161',
+      white20: '#424242',
+      white10: '#212121',
+      black90: '#212121',
+      black80: '#424242',
+      black70: '#616161',
+      black60: '#757575',
+      black50: '#9E9E9E',
+      black40: '#BDBDBD',
+      black30: '#E0E0E0',
+      black20: '#EEEEEE',
+      black10: '#F5F5F5',
       error: '$red',
     },
     fontSizes: {
@@ -81,6 +95,7 @@ export const darkTheme = createTheme('dark-theme', {
   colors: {
     primary: '$white90',
     secondary: '$white60',
+    contrast: '$white20',
     bg: '$black90',
   },
 })
@@ -89,6 +104,7 @@ export const lightTheme = createTheme('light-theme', {
   colors: {
     primary: '$black90',
     secondary: '$black60',
+    contrast: '$black20',
     bg: '$white90',
   },
 })

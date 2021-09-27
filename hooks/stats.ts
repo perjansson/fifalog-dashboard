@@ -1,8 +1,8 @@
 import useSWR from 'swr'
 import { TotalMatchStat, TotalMatchStatsResponse } from '../types'
 
-async function statsFetcher() {
-  const statsResponse = await fetch(`api/stats`)
+const statsFetcher = (origin: string) => async () => {
+  const statsResponse = await fetch(`${origin}/api/stats`)
   return (await statsResponse.json()) as TotalMatchStatsResponse
 }
 
@@ -15,12 +15,13 @@ interface UseStatsResponse {
   isError: boolean
 }
 
-export function useStats(): UseStatsResponse {
+export function useStats(origin: string): UseStatsResponse {
   const { data, error, isValidating } = useSWR<TotalMatchStatsResponse, Error>(
-    `api/stats`,
-    statsFetcher,
+    `${origin}/api/stats`,
+    statsFetcher(origin),
     {
-      refreshInterval: 5000,
+      suspense: true,
+      refreshInterval: 15000,
     },
   )
 

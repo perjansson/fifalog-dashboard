@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
 import { darkTheme, lightTheme } from '../stitches.config'
 
-export const useTheme = (): string | undefined => {
-  const [theme, setTheme] = useState<string | undefined>(undefined)
+type Theme = typeof darkTheme | typeof lightTheme | undefined
+
+export const useTheme = (): Theme => {
+  const [theme, setTheme] = useState<Theme>(undefined)
   useEffect(() => {
     if (
       window.matchMedia &&
