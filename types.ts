@@ -8,8 +8,16 @@ export interface TotalMatchStat {
   value: number
 }
 
-export interface TotalMatchStatsResponse {
-  stats: Array<TotalMatchStat>
+export interface TeamStat {
+  team: string
+  matches: number
+  wins: number
+  winPercentage: number
+}
+
+export interface StatsResponse {
+  totalMatchStats: Array<TotalMatchStat>
+  teamStats: Array<TeamStat>
   timestamp: string
 }
 
@@ -35,3 +43,12 @@ export interface FifaLogUserStat {
 }
 
 export type FifaLogStatsResponse = Array<FifaLogStat>
+
+export interface FifaLogMatchStat {
+  team: string
+  matches: number
+  wins: number
+  winPercentage: number
+}
+
+export type FifaLogTeamStatsResponse = Array<FifaLogMatchStat>

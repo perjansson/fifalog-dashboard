@@ -16,9 +16,11 @@ import { useWindowHeightOnResize } from '../hooks/windowResize'
 import { isServer } from '../utils/isServer'
 
 import { styled } from '../stitches.config'
+import { TeamStat } from '../types'
+import { useViewport } from '../hooks/useViewport'
 
 const Container = styled('div', {
-  height: 'calc(var(--vh, 1vh) * 100)',
+  minHeight: 'calc(var(--vh, 1vh) * 100)',
   width: '100%',
   backgroundColor: '$bg',
   color: '$primary',
@@ -41,16 +43,16 @@ const Main = styled('main', {
   },
 })
 
-const ChartWrapper = styled('div', {
+const StatsWrapper = styled('div', {
   flex: 1,
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  justifyContent: 'space-around',
+  justifyContent: 'space-between',
   transition: 'opacity 0.5s ease-in-out 1s, filter 0.5s ease-in-out 1s',
 
-  svg: {
-    flexGrow: 1,
+  '> *:not(:last-child)': {
+    marginBottom: '$space10',
   },
 
   variants: {
@@ -71,65 +73,157 @@ interface Props {
   origin: string
 }
 
-const Chart: React.FC<Props> = ({ origin }) => {
-  const { stats, totalGames, timestamp, isLoading, isValidating, isError } =
-    useStats(origin)
-  const { t } = useTranslation()
+const Stats: React.FC<Props> = ({ origin }) => {
+  const {
+    stats,
+    totalGames,
+    teamStats,
+    timestamp,
+    isLoading,
+    isValidating,
+    isError,
+  } = useStats(origin)
+
+  const hasAllStats = stats && teamStats && totalGames && timestamp
 
   return (
     <>
-      <ChartWrapper loading={isLoading || isValidating}>
+      <StatsWrapper loading={isLoading || isValidating}>
         {isLoading && <Loading />}
-        {stats && (
+        {hasAllStats && (
           <>
             <MatchStatsChart matchStats={stats} />
-            <div>{t('totalGames', { count: totalGames })}</div>
-            {timestamp && <LastUpdated time={timestamp} />}
+            <TeamStandings teamStats={teamStats} />
+            <StatsSummary totalGames={totalGames} timestamp={timestamp} />
           </>
         )}
-      </ChartWrapper>
+      </StatsWrapper>
       {isError && !stats && <Error />}
     </>
   )
 }
 
-const ChartSkeleton = () => {
+const Table = styled('table', {
+  tableLayout: 'fixed',
+  width: '100%',
+  maxWidth: '1200px',
+  borderCollapse: 'collapse',
+
+  'th, td': {
+    height: '48px',
+    width: '20%',
+    textAlign: 'right',
+    color: '$secondary',
+    padding: '$space2',
+  },
+
+  th: {
+    color: '$primary',
+    fontSize: '$large',
+  },
+
+  'th:nth-child(1)': {
+    width: '40%',
+    textAlign: 'left',
+  },
+})
+
+const THead = styled('thead', {
+  th: {
+    fontSize: '$xlarge',
+  },
+})
+
+const TeamStandings: React.FC<{ teamStats: Array<TeamStat> }> = ({
+  teamStats,
+}) => {
+  const { t } = useTranslation()
+  const { isMobile } = useViewport()
+
+  return (
+    <Table>
+      <THead>
+        <tr>
+          <th scope="col">{t(isMobile ? 'teamShort' : 'team')}</th>
+          <th scope="col">{t(isMobile ? 'matchesShort' : 'matches')}</th>
+          <th scope="col">{t(isMobile ? 'winsShort' : 'wins')}</th>
+          <th scope="col">
+            {t(isMobile ? 'winPercentageShort' : 'winPercentage')}
+          </th>
+        </tr>
+      </THead>
+      <tbody>
+        {teamStats.map(({ team, matches, wins, winPercentage }) => (
+          <tr key={team}>
+            <th scope="row">{team}</th>
+            <td>{matches}</td>
+            <td>{wins}</td>
+            <td>{winPercentage}</td>
+          </tr>
+        ))}
+      </tbody>
+    </Table>
+  )
+}
+
+const StatsSummaryWrapper = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+})
+
+const StatsSummary: React.FC<{ totalGames: number; timestamp: string }> = ({
+  totalGames,
+  timestamp,
+}) => {
+  const { t } = useTranslation()
+
+  return (
+    <StatsSummaryWrapper>
+      <div>{t('totalGames', { count: totalGames })}</div>
+      {timestamp && <LastUpdated time={timestamp} />}
+    </StatsSummaryWrapper>
+  )
+}
+
+const StatsSkeleton = () => {
+  const { isMobile } = useViewport()
+
   return (
     <>
       <div
         style={{
-          height: '96vh',
+          minHeight: '96vh',
           display: 'flex',
+          flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
+          gap: '60px',
         }}
       >
-        <Skeleton circle={true} height="50vh" width="50vh" />
-      </div>
-      <div
-        style={{
-          height: '3vh',
-          width: '40vw',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          marginBottom: '1vh',
-        }}
-      >
-        <div style={{ width: '100%' }}>
-          <Skeleton
-            width="100%"
-            height="8"
-            count={2}
-            style={{ marginBottom: '8px' }}
-          />
+        <Skeleton
+          circle={true}
+          height={isMobile ? '90vw' : '50vh'}
+          width={isMobile ? '90vw' : '50vh'}
+        />
+        <Skeleton height={'50vh'} width={isMobile ? '90vw' : '60vh'} />
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Skeleton width="40vw" height="8" style={{ marginBottom: '8px' }} />
+          <Skeleton width="40vw" height="8" style={{ marginBottom: '8px' }} />
         </div>
       </div>
     </>
   )
 }
 
-const Home: NextPage<Props> = ({ origin }) => {
+const Index: NextPage<Props> = ({ origin }) => {
   const theme = useTheme()
   useWindowHeightOnResize()
 
@@ -149,10 +243,10 @@ const Home: NextPage<Props> = ({ origin }) => {
           <Header>{t('header')}</Header>
 
           {isServer ? (
-            <Chart origin={origin} />
+            <Stats origin={origin} />
           ) : (
-            <Suspense fallback={<ChartSkeleton />}>
-              <Chart origin={origin} />
+            <Suspense fallback={<StatsSkeleton />}>
+              <Stats origin={origin} />
             </Suspense>
           )}
         </Main>
@@ -161,7 +255,7 @@ const Home: NextPage<Props> = ({ origin }) => {
   ) : null
 }
 
-Home.getInitialProps = (context: NextPageContext) =>
+Index.getInitialProps = (context: NextPageContext) =>
   absoluteUrl(context.req, context.req?.headers.host)
 
-export default Home
+export default Index

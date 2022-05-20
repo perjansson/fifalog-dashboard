@@ -43,7 +43,7 @@ export const {
       small: '0.75rem',
       base: '1rem',
       large: '1.25rem',
-      xlarge: '3rem',
+      xlarge: '2rem',
       xxlarge: '4rem',
       xxxlarge: '6rem',
     },

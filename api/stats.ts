@@ -1,6 +1,6 @@
-import { TotalMatchStatsResponse } from '../types'
+import { StatsResponse } from '../types'
 
-export const statsFetcher = async (): Promise<TotalMatchStatsResponse> => {
+export const statsFetcher = async (): Promise<StatsResponse> => {
   const statsResponse = await fetch(`api/stats`)
-  return (await statsResponse.json()) as TotalMatchStatsResponse
+  return (await statsResponse.json()) as StatsResponse
 }

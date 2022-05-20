@@ -1,4 +1,10 @@
-import { FifaLogStatsResponse, TotalMatchStat, TotalStats } from '../types'
+import {
+  FifaLogStatsResponse,
+  FifaLogTeamStatsResponse,
+  TeamStat,
+  TotalMatchStat,
+  TotalStats,
+} from '../types'
 
 type MatchStatObject = { [key: string]: number }
 
@@ -51,10 +57,19 @@ export function transformMatchStatsToChartData(
     { title: 'Ties', value: totalTies },
   ]
 
-  const totalGames = stats.reduce((total, { value }) => total + value, 0)
+  const totalGames = stats.reduce<number>(
+    (total, { value }) => total + value,
+    0,
+  )
 
   return {
     stats,
     totalGames,
   }
+}
+
+export function transformTeamStatsToTeamStandingData(
+  statsResponse: FifaLogTeamStatsResponse,
+): { teamStats: Array<TeamStat> } {
+  return { teamStats: statsResponse }
 }

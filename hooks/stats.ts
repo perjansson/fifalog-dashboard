@@ -1,13 +1,14 @@
 import useSWR from 'swr'
-import { TotalMatchStat, TotalMatchStatsResponse } from '../types'
+import { TotalMatchStat, StatsResponse, TeamStat } from '../types'
 
 const statsFetcher = (origin: string) => async () => {
   const statsResponse = await fetch(`${origin}/api/stats`)
-  return (await statsResponse.json()) as TotalMatchStatsResponse
+  return (await statsResponse.json()) as StatsResponse
 }
 
 interface UseStatsResponse {
   stats?: Array<TotalMatchStat>
+  teamStats?: Array<TeamStat>
   totalGames?: number
   timestamp?: string
   isLoading: boolean
@@ -16,7 +17,7 @@ interface UseStatsResponse {
 }
 
 export function useStats(origin: string): UseStatsResponse {
-  const { data, error, isValidating } = useSWR<TotalMatchStatsResponse, Error>(
+  const { data, error, isValidating } = useSWR<StatsResponse, Error>(
     `${origin}/api/stats`,
     statsFetcher(origin),
     {

@@ -1,7 +1,10 @@
 import fetch, { Response } from 'node-fetch'
 import { NextApiRequest, NextApiResponse } from 'next'
 
-import { transformMatchStatsToChartData } from '../../utils/chart'
+import {
+  transformMatchStatsToChartData,
+  transformTeamStatsToTeamStandingData,
+} from '../../utils/fifaLogResponseParser'
 import {
   API,
   SUPER_SECRET_PASSWORD,
@@ -32,8 +35,21 @@ export default async function statsHandler(
     },
   })
 
+  const teamStatsResponse = await fetch(`${API}/api/team-stats`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      cookie: parseCookies(loginResponse),
+    },
+  })
+
   const totalStats = transformMatchStatsToChartData(await statsResponse.json())
-  res.status(200).json({ timestamp: new Date(), ...totalStats })
+  const teamStats = transformTeamStatsToTeamStandingData(
+    await teamStatsResponse.json(),
+  )
+
+  res.status(200).json({ timestamp: new Date(), ...totalStats, ...teamStats })
 }
 
 function parseCookies(response: Response): string {
